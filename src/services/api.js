@@ -1,13 +1,15 @@
 import axios from "axios";
 
-const backendURL = " http://localhost:5000"; // or whatever port your backend is on
+export const backendURL = "http://localhost:5000"; // Use env in production
 
 const api = axios.create({
-  baseURL: backendURL , // Correct: calling backend, not frontend
+  baseURL: backendURL,
   headers: {
     "Content-Type": "application/json",
   },
-  withCredentials: true,
+  withCredentials: true, // if you're using cookies (optional for JWT)
 });
+
+
 
 export default api;

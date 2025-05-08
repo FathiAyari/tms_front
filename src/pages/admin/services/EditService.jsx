@@ -1,0 +1,121 @@
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import { fetchServiceById, updateService } from "../../../services/ServicesService.js";
+
+const EditService = () => {
+    const { id } = useParams();
+    const navigate = useNavigate();
+
+    const [serviceData, setServiceData] = useState({
+        name: "",
+        notes: "",
+        region: "",
+    });
+
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchService = async () => {
+            try {
+                const res = await fetchServiceById(id);
+                setServiceData({
+                    name: res.name || "",
+                    notes: res.notes || "",
+                    region: res.region || "",
+                });
+            } catch (err) {
+                toast.error("Erreur lors du chargement du service.");
+                navigate("/services");
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchService();
+    }, [id, navigate]);
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setServiceData((prev) => ({ ...prev, [name]: value }));
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            await updateService(id, serviceData);
+            toast.success("Service modifié avec succès !");
+            navigate("/services");
+        } catch (err) {
+            toast.error("Erreur lors de la modification du service.");
+        }
+    };
+
+    if (loading) {
+        return <div className="text-center py-10">Chargement...</div>;
+    }
+
+    return (
+        <div className="container mx-auto p-6">
+            <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
+                <h2 className="text-2xl font-semibold mb-6">Modifier le service</h2>
+
+                <form onSubmit={handleSubmit}>
+                    <div className="grid grid-cols-1 gap-6">
+                        <div>
+                            <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                                Nom du service
+                            </label>
+                            <input
+                                type="text"
+                                name="name"
+                                id="name"
+                                value={serviceData.name}
+                                onChange={handleChange}
+                                required
+                                className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm"
+                            />
+                        </div>
+
+                        <div>
+                            <label htmlFor="region" className="block text-sm font-medium text-gray-700">
+                                Région
+                            </label>
+                            <input
+                                type="text"
+                                name="region"
+                                id="region"
+                                value={serviceData.region}
+                                onChange={handleChange}
+                                required
+                                className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm"
+                            />
+                        </div>
+
+                        <div>
+                            <label htmlFor="notes" className="block text-sm font-medium text-gray-700">
+                                Remarques
+                            </label>
+                            <textarea
+                                name="notes"
+                                id="notes"
+                                rows="4"
+                                value={serviceData.notes}
+                                onChange={handleChange}
+                                className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm"
+                            />
+                        </div>
+                    </div>
+
+                    <button
+                        type="submit"
+                        className="w-full my-4 py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
+                    >
+                        Enregistrer les modifications
+                    </button>
+                </form>
+            </div>
+        </div>
+    );
+};
+
+export default EditService;

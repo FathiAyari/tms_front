@@ -1,7 +1,7 @@
 import { assets } from "../assets/assets";
 import { Link } from "react-router-dom";
 
-const VehicleTable = ({ vehicles, onDeleteClick }) => {
+const OrdersTable = ({ orders, onDeleteClick }) => {
   return (
     <div className="overflow-x-auto shadow-lg rounded-lg bg-white">
       <table className="min-w-full table-auto">
@@ -14,20 +14,20 @@ const VehicleTable = ({ vehicles, onDeleteClick }) => {
           </tr>
         </thead>
         <tbody>
-          {vehicles.map((vehicle) => (
-            <tr key={vehicle._id} className="border-t">
-              <td className="py-3 px-6">{vehicle.name}</td>
-              <td className="py-3 px-6">{vehicle.model}</td>
-              <td className="py-3 px-6">{vehicle.status}</td>
+          {orders.map((order) => (
+            <tr key={order._id} className="border-t">
+              <td className="py-3 px-6">{order.status}</td>
+              <td className="py-3 px-6">{order.status}</td>
+              <td className="py-3 px-6">{order.status}</td>
               <td className="py-3 px-6 flex space-x-4">
                 <Link
-                  to={`/edit-vechile/${vehicle._id}`}
+                  to={`/edit-vechile/${order._id}`}
                   className="text-white rounded-lg w-6"
                 >
                   <img src={assets.edit_icone} alt="edit" />
                 </Link>
                 <button
-                  onClick={() => onDeleteClick(vehicle._id)}
+                  onClick={() => onDeleteClick(order._id)}
                   className="text-white rounded-lg w-6"
                 >
                   <img src={assets.delete_icone} alt="delete" />
@@ -41,4 +41,4 @@ const VehicleTable = ({ vehicles, onDeleteClick }) => {
   );
 };
 
-export default VehicleTable;
+export default OrdersTable;

@@ -1,30 +1,39 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../services/authContext.jsx"; // Adjust the path if needed
 
 const Navbar = () => {
-  const adminName = "Yohanis Tadese";
+    const { user, logout } = useAuth(); // Get user and logout function
+    const navigate = useNavigate();
 
-  return (
-    <nav className="bg-[#FBFBFB] p-4 flex justify-between items-center border-b border-gray-300">
-      <div className="text-[#515151] font-bold text-xl">
-        <Link to="/">Vehicle Management System</Link>
-      </div>
+    const handleLogout = () => {
+        logout();
+        navigate("/");
+    };
 
-      <div className="flex flex-col sm:flex-row sm:space-x-7 sm:items-center space-y-3 sm:space-y-0 mt-4 sm:mt-0">
-        <div className="text-[#515151] font-bold text-sm">
-          <Link
-            to="/about"
-            className="text-gray-700 border-2 border-solid border-blue-300 hover:text-white hover:bg-blue-400 px-4 py-1 rounded-md transition duration-300 ease-in-out"
-          >
-            About
-          </Link>
-        </div>
+    return (
+        <nav className="bg-[#FBFBFB] p-4 flex justify-between items-center border-b border-gray-300">
+            <div className="text-[#515151] font-bold text-xl">
+                <Link to="/">Transport Management System</Link>
+            </div>
 
-        <div className="flex items-center space-x-7">
-          <span className="text-black">Welcome, {adminName}!</span>
-        </div>
-      </div>
-    </nav>
-  );
+            <div className="flex flex-col sm:flex-row sm:space-x-7 sm:items-center space-y-3 sm:space-y-0 mt-4 sm:mt-0">
+
+
+                {user && (
+                    <div className="flex items-center space-x-4">
+                        <span className="text-black text-sm">Bonjour, {user.username}!</span>
+
+                        <button
+                            onClick={handleLogout}
+                            className="text-sm text-white bg-red-500 hover:bg-red-600 px-4 py-1 rounded-md transition"
+                        >
+                            Déconnecter
+                        </button>
+                    </div>
+                )}
+            </div>
+        </nav>
+    );
 };
 
 export default Navbar;

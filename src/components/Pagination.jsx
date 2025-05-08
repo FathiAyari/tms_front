@@ -16,7 +16,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
             : "bg-blue-600 text-white hover:bg-blue-700"
         }`}
       >
-        Previous
+          Précédent
       </button>
       <span className="px-4 py-2">{currentPage}</span>
       <button
@@ -28,7 +28,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
             : "bg-blue-600 text-white hover:bg-blue-700"
         }`}
       >
-        Next
+        Suivant
       </button>
     </div>
   );
