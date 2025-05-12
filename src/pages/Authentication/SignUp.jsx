@@ -1,30 +1,56 @@
-import { useNavigate, Link } from 'react-router-dom';
 import { useState } from 'react';
-import { signUp } from '../../services/authService'; // Adjust path if needed
+import { useNavigate, Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { signUp } from '../../services/authService';
 
 const SignUp = () => {
     const navigate = useNavigate();
 
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [username, setUsername] = useState('');
-    const [error, setError] = useState('');
+    const [userData, setUserData] = useState({
+        username: '',
+        email: '',
+        password: '',
+        image: null,
+    });
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setUserData((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
+    };
+
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        setUserData((prev) => ({
+            ...prev,
+            image: file,
+        }));
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError('');
+
+        const formData = new FormData();
+        formData.append('username', userData.username);
+        formData.append('email', userData.email);
+        formData.append('password', userData.password);
+        if (userData.image) {
+            formData.append('image', userData.image);
+        }
 
         try {
-            const user = await signUp({ username, email, password });
-
-            // Redirect based on user status
+            console.log(formData);
+            const user = await signUp(formData);
+            toast.success("Inscription réussie !");
             if (user.status === 'inactive') {
-                navigate('/inactive'); // Redirect to inactive page
+                navigate('/inactive');
             } else {
-                navigate('/dashboard'); // Redirect to dashboard
+                navigate('/dashboard');
             }
         } catch (err) {
-            setError(err.message || 'Une erreur est survenue');
+            toast.error(err.message || 'Une erreur est survenue');
         }
     };
 
@@ -40,27 +66,22 @@ const SignUp = () => {
                     </h2>
                 </div>
 
-                <form onSubmit={handleSubmit} className="space-y-6">
-                    {error && (
-                        <div className="text-red-500 text-sm text-center">{error}</div>
-                    )}
-
+                <form onSubmit={handleSubmit} encType="multipart/form-data" className="space-y-6">
                     {/* Username */}
                     <div>
                         <label htmlFor="username" className="block text-sm font-medium text-black mb-1">
                             Nom d'utilisateur
                         </label>
-                        <div className="relative">
-                            <input
-                                id="username"
-                                type="text"
-                                value={username}
-                                onChange={(e) => setUsername(e.target.value)}
-                                placeholder="Entrez votre nom d'utilisateur"
-                                required
-                                className="w-full rounded-lg border border-stroke bg-white py-3 pl-4 pr-10 text-black outline-none focus:border-primary"
-                            />
-                        </div>
+                        <input
+                            id="username"
+                            name="username"
+                            type="text"
+                            value={userData.username}
+                            onChange={handleChange}
+                            required
+                            placeholder="Entrez votre nom d'utilisateur"
+                            className="w-full rounded-lg border border-stroke bg-white py-3 pl-4 pr-10 text-black outline-none focus:border-primary"
+                        />
                     </div>
 
                     {/* Email */}
@@ -68,20 +89,16 @@ const SignUp = () => {
                         <label htmlFor="email" className="block text-sm font-medium text-black mb-1">
                             Email
                         </label>
-                        <div className="relative">
-                            <input
-                                id="email"
-                                type="email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                placeholder="Entrez votre email"
-                                required
-                                className="w-full rounded-lg border border-stroke bg-white py-3 pl-4 pr-10 text-black outline-none focus:border-primary"
-                            />
-                            <span className="absolute right-4 top-1/2 transform -translate-y-1/2">
-                                📧
-                            </span>
-                        </div>
+                        <input
+                            id="email"
+                            name="email"
+                            type="email"
+                            value={userData.email}
+                            onChange={handleChange}
+                            required
+                            placeholder="Entrez votre email"
+                            className="w-full rounded-lg border border-stroke bg-white py-3 pl-4 pr-10 text-black outline-none focus:border-primary"
+                        />
                     </div>
 
                     {/* Password */}
@@ -89,20 +106,30 @@ const SignUp = () => {
                         <label htmlFor="password" className="block text-sm font-medium text-black mb-1">
                             Mot de passe
                         </label>
-                        <div className="relative">
-                            <input
-                                id="password"
-                                type="password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                placeholder="6+ caractères, 1 majuscule"
-                                required
-                                className="w-full rounded-lg border border-stroke bg-white py-3 pl-4 pr-10 text-black outline-none focus:border-primary"
-                            />
-                            <span className="absolute right-4 top-1/2 transform -translate-y-1/2">
-                                🔒
-                            </span>
-                        </div>
+                        <input
+                            id="password"
+                            name="password"
+                            type="password"
+                            value={userData.password}
+                            onChange={handleChange}
+                            required
+                            placeholder="6+ caractères, 1 majuscule"
+                            className="w-full rounded-lg border border-stroke bg-white py-3 pl-4 pr-10 text-black outline-none focus:border-primary"
+                        />
+                    </div>
+
+                    {/* Image Upload */}
+                    <div>
+                        <label htmlFor="image" className="block text-sm font-medium text-black mb-1">
+                            Image de profil
+                        </label>
+                        <input
+                            id="image"
+                            type="file"
+                            accept="image/*"
+                            onChange={handleImageChange}
+                            className="w-full rounded-lg border border-stroke bg-white py-3 pl-4 text-black outline-none focus:border-primary"
+                        />
                     </div>
 
                     {/* Submit Button */}
@@ -113,11 +140,11 @@ const SignUp = () => {
                         S'inscrire
                     </button>
 
-                    {/* Link to Sign In */}
+                    {/* Link to login */}
                     <div className="text-center mt-4 text-sm">
                         <p>
-                            Vous avez déjà un compte?{' '}
-                            <Link to="/login" className="text-custom-blue hover:underline">
+                            Vous avez déjà un compte ?{' '}
+                            <Link to="/signin" className="text-custom-blue hover:underline">
                                 Se connecter
                             </Link>
                         </p>

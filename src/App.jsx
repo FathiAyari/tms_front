@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'r
 import SignIn from './pages/Authentication/SignIn.jsx';
 import SignUp from './pages/Authentication/SignUp.jsx';
 import Inactive from './pages/Authentication/inactive.jsx';
-import LandingPage from './pages/landing/LandingPage.jsx';
 import NotFound from './components/NotFound.jsx';
 
 import AdminDashboard from './pages/admin/dashboard/AdminDashboard.jsx';
@@ -33,6 +32,8 @@ import EditReview from './pages/client/reviews/EditReview.jsx';
 
 import { useAuth } from './services/authContext.jsx';
 import AdminClients from "./pages/admin/clients/AdminClients.jsx";
+import ClientProfile from "./pages/client/profil/ClientProfile.jsx";
+import HomePage from "./pages/landing/HomePage.jsx";
 
 const AppRoutes = () => {
     const { user, loading } = useAuth();
@@ -69,6 +70,7 @@ const AppRoutes = () => {
                     <Route path="/clients" element={<AdminLayout><AdminClients /></AdminLayout>} />
                     <Route path="/details-post/:id" element={<AdminLayout><PostsDetails /></AdminLayout>} />
                     <Route path="/details-order/:id" element={<AdminLayout><OrderDeatils /></AdminLayout>} />
+                    <Route path="/profile" element={<AdminLayout><ClientProfile /></AdminLayout>} />
 
                 </>
 
@@ -88,6 +90,7 @@ const AppRoutes = () => {
                     <Route path="/reviews" element={<ClientLayout><ClientReviews /></ClientLayout>} />
                     <Route path="/add-review" element={<ClientLayout><AddReview /></ClientLayout>} />
                     <Route path="/edit-review/:id" element={<ClientLayout><EditReview /></ClientLayout>} />
+                    <Route path="/profile" element={<ClientLayout><ClientProfile /></ClientLayout>} />
                 </>
             )}
 
@@ -95,7 +98,7 @@ const AppRoutes = () => {
             <Route path="/signin" element={<SignIn />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/inactive" element={<Inactive />} />
-            <Route path="/" element={<LandingPage />} />
+            <Route path="/" element={<HomePage />} />
             <Route path="/blog" element={<Blog />} />
 
             {/* Fallback */}

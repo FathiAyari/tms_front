@@ -1,14 +1,29 @@
 import api from './api';
 
 // Sign up user
+
 export const signUp = async (userData) => {
-    const response = await api.post('/api/auth/signup', userData);
-    const { token, user } = response.data;
 
-    localStorage.setItem('token', token);
-    localStorage.setItem('user', JSON.stringify(user));
 
-    return user;
+    try {
+        // Send a POST request with FormData, including the image
+        const response = await api.post('/api/auth/signup', userData, {
+            headers: {
+                "Content-Type": "multipart/form-data", // Ensure that the header is set to multipart/form-data
+            },
+        });
+
+        const { token, user } = response.data;
+
+        // Store the token and user info in localStorage
+        localStorage.setItem('token', token);
+        localStorage.setItem('user', JSON.stringify(user));
+
+        return user; // Return the user object after successful signup
+    } catch (error) {
+        console.error("Signup failed:", error.response?.data || error.message);
+        throw error; // Rethrow error to be handled in the UI
+    }
 };
 
 // Sign in user

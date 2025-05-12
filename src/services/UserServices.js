@@ -1,5 +1,4 @@
 import api from "./api";
-import axios from "axios";
 
 // Fetch users with role 'client' and pagination
 export const fetchUsers = async (page = 1, limit = 10) => {
@@ -38,11 +37,19 @@ export const addUser = async (data) => {
 // Update an existing user by ID
 export const updateUser = async (id, data) => {
     try {
-        const response = await api.patch(`/api/users/${id}`, data);
-        return response.data.user;
+        const response = await api.patch(`/api/users/${id}`, data,{
+            headers: {
+                "Content-Type": "multipart/form-data", // Ensure that the header is set to multipart/form-data
+            },
+        });
+        return {
+            user: response.data.user,
+            message: response.data.message
+        };
     } catch (error) {
-        console.error("Error while updating user:", error);
-        throw error; // rethrow for higher-level handling
+        const errorMessage = error.response?.data?.message || "Erreur lors de la mise à jour de l'utilisateur.";
+        console.error("Error while updating user:", errorMessage);
+        throw new Error(errorMessage); // rethrow with clean message
     }
 };
 

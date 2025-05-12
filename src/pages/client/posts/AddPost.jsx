@@ -43,7 +43,6 @@ const AddPost = () => {
 
 
         try {
-            console.log(postData);
             // Send FormData to the backend
             await addPost(formData);
 

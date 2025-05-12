@@ -63,18 +63,6 @@ const AdminSidebar = () => {
             </NavLink>
           </li>
 
-          <li>
-            <NavLink
-                to="/blog"
-                className={({ isActive }) =>
-                    `p-3 rounded-lg flex items-center space-x-3 transition-all duration-300 ${
-                        isActive ? "bg-[#DDE1FF] text-[#2F4BFF]" : "hover:bg-[#F2F3FF]"}`
-                }
-            >
-              <FaListAlt className="text-xl" />
-              <span className="text-sm font-semibold">Blog</span>
-            </NavLink>
-          </li>
 
           <li>
             <NavLink
@@ -86,6 +74,18 @@ const AdminSidebar = () => {
             >
               <FaListAlt className="text-xl" />
               <span className="text-sm font-semibold">Sondage</span>
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+                to="/profile"
+                className={({ isActive }) =>
+                    `p-3 rounded-lg flex items-center space-x-3 transition-all duration-300 ${
+                        isActive ? "bg-[#DDE1FF] text-[#2F4BFF]" : "hover:bg-[#F2F3FF]"}`
+                }
+            >
+              <FaListAlt className="text-xl" />
+              <span className="text-sm font-semibold">Profile</span>
             </NavLink>
           </li>
         </ul>

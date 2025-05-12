@@ -14,7 +14,7 @@ function EditOrder() {
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
     if (user && user.role === "admin") {
-      setIsAdmin(true); // Admin can edit the status field
+      setIsAdmin(true); // Admin can edit the status and adminNotes field
     }
 
     const getOrder = async () => {
@@ -82,15 +82,57 @@ function EditOrder() {
                 />
               </div>
 
-              {/* Destination */}
+              {/* Source Address */}
               <div>
                 <label className="block text-sm font-medium text-gray-700">
-                  Adresse du client
+                  Adresse de départ
                 </label>
                 <input
                     type="text"
-                    name="destination"
-                    value={order.destination}
+                    name="sourceAdress"
+                    value={order.sourceAdress}
+                    onChange={handleChange}
+                    className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm"
+                />
+              </div>
+
+              {/* Destination Address */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Adresse de destination
+                </label>
+                <input
+                    type="text"
+                    name="destinationAdress"
+                    value={order.destinationAdress}
+                    onChange={handleChange}
+                    className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm"
+                />
+              </div>
+
+              {/* Source Country */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Pays d'origine
+                </label>
+                <input
+                    type="text"
+                    name="sourceCountry"
+                    value={order.sourceCountry}
+                    onChange={handleChange}
+                    className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm"
+                />
+              </div>
+
+              {/* Destination Country */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Pays de destination
+                </label>
+                <input
+                    type="text"
+                    name="destinationCountry"
+                    value={order.destinationCountry}
                     onChange={handleChange}
                     className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm"
                 />
@@ -138,6 +180,20 @@ function EditOrder() {
                 />
               </div>
 
+              {/* Weight */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Poids
+                </label>
+                <input
+                    type="number"
+                    name="weight"
+                    value={order.weight}
+                    onChange={handleChange}
+                    className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm"
+                />
+              </div>
+
               {/* Notes */}
               <div className="md:col-span-2">
                 <label className="block text-sm font-medium text-gray-700">
@@ -151,6 +207,46 @@ function EditOrder() {
                     className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm"
                 />
               </div>
+
+              {/* Type of Item */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Type d'article
+                </label>
+                <select
+                    name="type"
+                    value={order.type}
+                    onChange={handleChange}
+                    className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm"
+                >
+                  <option value="Standard">Standard</option>
+                  <option value="Fragile">Fragile</option>
+                  <option value="Périssable">Périssable</option>
+                  <option value="Électronique">Électronique</option>
+                  <option value="Documents">Documents</option>
+                  <option value="Vêtements">Vêtements</option>
+                  <option value="Meubles">Meubles</option>
+                  <option value="Produits chimiques">Produits chimiques</option>
+                  <option value="Lourd">Lourd</option>
+                  <option value="Volumineux">Volumineux</option>
+                </select>
+              </div>
+
+              {/* Admin Notes - Editable only for Admin */}
+              {isAdmin && (
+                  <div className="md:col-span-2">
+                    <label className="block text-sm font-medium text-gray-700">
+                      Remarques de l'administrateur
+                    </label>
+                    <textarea
+                        name="adminNotes"
+                        rows="3"
+                        value={order.adminNotes || ""}
+                        onChange={handleChange}
+                        className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm"
+                    />
+                  </div>
+              )}
 
               {/* Status - Editable only for Admin */}
               {isAdmin && (
@@ -175,7 +271,7 @@ function EditOrder() {
             {/* Submit Button */}
             <button
                 type="submit"
-                className={`w-full my-1 py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition`}
+                className="w-full my-1 py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
             >
               Mettre à jour
             </button>

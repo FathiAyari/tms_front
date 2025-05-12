@@ -140,7 +140,7 @@ const ClientOrders = () => {
                   {orders.map((order) => (
                       <tr key={order._id} className="border-t">
                         <td className="py-3 px-6">{order.customerName}</td>
-                        <td className="py-3 px-6">{order.destination}</td>
+                        <td className="py-3 px-6">{order.destinationAdress} {order.destinationCountry}</td>
                         <td className="py-3 px-6">{order.status}</td>
                         <td className="py-3 px-6 flex space-x-4">
                           <Link

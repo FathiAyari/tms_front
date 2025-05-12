@@ -10,10 +10,15 @@ const AddOrder = () => {
         customerName: "",
         ownerId: JSON.parse(localStorage.getItem("user")).id,
         status: "En attente",
-        destination: "",
+        destinationAdress: "",
+        sourceAdress: "",
+        destinationCountry: "",
+        sourceCountry: "",
         paymentMethod: "Carte",
         paymentStatus: "Non payé",
         totalAmount: "",
+        type: "Standard",
+        weight: "",
         notes: "",
     });
 
@@ -49,12 +54,39 @@ const AddOrder = () => {
                         />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-gray-700">Adresse du client</label>
+                        <label className="block text-sm font-medium text-gray-700">Adresse de destination</label>
                         <input
-                            name="destination"
-                            value={orderData.destination}
+                            name="destinationAdress"
+                            value={orderData.destinationAdress}
                             onChange={handleChange}
                             required
+                            className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm"
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700">Adresse source</label>
+                        <input
+                            name="sourceAdress"
+                            value={orderData.sourceAdress}
+                            onChange={handleChange}
+                            className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm"
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700">Pays de destination</label>
+                        <input
+                            name="destinationCountry"
+                            value={orderData.destinationCountry}
+                            onChange={handleChange}
+                            className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm"
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700">Pays source</label>
+                        <input
+                            name="sourceCountry"
+                            value={orderData.sourceCountry}
+                            onChange={handleChange}
                             className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm"
                         />
                     </div>
@@ -92,6 +124,36 @@ const AddOrder = () => {
                             step="0.01"
                             name="totalAmount"
                             value={orderData.totalAmount}
+                            onChange={handleChange}
+                            className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm"
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700">Type</label>
+                        <select
+                            name="type"
+                            value={orderData.type}
+                            onChange={handleChange}
+                            className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm"
+                        >
+                            <option value="Standard">Standard</option>
+                            <option value="Fragile">Fragile</option>
+                            <option value="Périssable">Périssable</option>
+                            <option value="Électronique">Électronique</option>
+                            <option value="Documents">Documents</option>
+                            <option value="Vêtements">Vêtements</option>
+                            <option value="Meubles">Meubles</option>
+                            <option value="Produits chimiques">Produits chimiques</option>
+                            <option value="Lourd">Lourd</option>
+                            <option value="Volumineux">Volumineux</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700">Poids (kg)</label>
+                        <input
+                            type="number"
+                            name="weight"
+                            value={orderData.weight}
                             onChange={handleChange}
                             className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm"
                         />

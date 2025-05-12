@@ -41,8 +41,20 @@ function OrderDetails() {
                         <p className="mt-1 text-gray-900">{order.customerName}</p>
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-gray-700">Destination</label>
-                        <p className="mt-1 text-gray-900">{order.destination}</p>
+                        <label className="block text-sm font-medium text-gray-700">Adresse de destination</label>
+                        <p className="mt-1 text-gray-900">{order.destinationAdress}</p>
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700">Adresse source</label>
+                        <p className="mt-1 text-gray-900">{order.sourceAdress}</p>
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700">Pays de destination</label>
+                        <p className="mt-1 text-gray-900">{order.destinationCountry}</p>
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700">Pays source</label>
+                        <p className="mt-1 text-gray-900">{order.sourceCountry}</p>
                     </div>
                     <div>
                         <label className="block text-sm font-medium text-gray-700">Méthode de paiement</label>
@@ -56,9 +68,21 @@ function OrderDetails() {
                         <label className="block text-sm font-medium text-gray-700">Montant total (€)</label>
                         <p className="mt-1 text-gray-900">{order.totalAmount}</p>
                     </div>
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700">Type</label>
+                        <p className="mt-1 text-gray-900">{order.type}</p>
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700">Poids (kg)</label>
+                        <p className="mt-1 text-gray-900">{order.weight}</p>
+                    </div>
                     <div className="md:col-span-2">
                         <label className="block text-sm font-medium text-gray-700">Remarques</label>
                         <p className="mt-1 text-gray-900 whitespace-pre-wrap">{order.notes}</p>
+                    </div>
+                    <div className="md:col-span-2">
+                        <label className="block text-sm font-medium text-gray-700">Remarques administrateur</label>
+                        <p className="mt-1 text-gray-900 whitespace-pre-wrap">{order.adminNotes?.trim() ? order.adminNotes : "vide"}</p>
                     </div>
                 </div>
             </div>

@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../services/authContext.jsx"; // Adjust the path if needed
+import { useAuth } from "../services/authContext.jsx";
+import {backendURL} from "../services/api.js"; // Adjust the path if needed
 
 const Navbar = () => {
     const { user, logout } = useAuth(); // Get user and logout function
@@ -17,10 +18,17 @@ const Navbar = () => {
             </div>
 
             <div className="flex flex-col sm:flex-row sm:space-x-7 sm:items-center space-y-3 sm:space-y-0 mt-4 sm:mt-0">
-
-
                 {user && (
                     <div className="flex items-center space-x-4">
+                        {/* Avatar */}
+                        {user.image && (
+                            <img
+                                src={`${backendURL}/api${user.image}`}
+                                alt="Avatar"
+                                className="w-10 h-10 rounded-full object-cover border"
+                            />
+                        )}
+
                         <span className="text-black text-sm">Bonjour, {user.username}!</span>
 
                         <button
